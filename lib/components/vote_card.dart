@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:voting_system/utils/custom_colors.dart';
 
 class VoteCard extends StatelessWidget {
-  const VoteCard({Key? key}) : super(key: key);
+  final Function() onVote;
+
+  const VoteCard({Key? key, required this.onVote}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class VoteCard extends StatelessWidget {
                 height: 36,
                 width: 250,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: onVote,
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
                       CustomColors.green,

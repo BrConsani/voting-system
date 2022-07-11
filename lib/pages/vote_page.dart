@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voting_system/components/success_dialog.dart';
 import 'package:voting_system/components/vote_card.dart';
 
 class VotePage extends StatelessWidget {
@@ -65,7 +66,14 @@ class VotePage extends StatelessWidget {
                       crossAxisCount: getCrossAxisCount(constraints),
                       shrinkWrap: true,
                       children: List.generate(9, (_) {
-                        return const Center(child: VoteCard());
+                        return Center(child: VoteCard(
+                          onVote: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const SuccessDialog(),
+                            );
+                          },
+                        ));
                       }),
                     );
                   },
