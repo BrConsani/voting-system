@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:voting_system/pages/vote_page.dart';
-import 'package:voting_system/utils/custom_colors.dart';
+import 'package:get/route_manager.dart';
+import 'package:voting_system/pages/list_page/list_page.dart';
+import 'package:voting_system/pages/vote_page/vote_page.dart';
+import 'package:voting_system/shared/utils/custom_colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +13,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Voting System',
       theme: ThemeData(primaryColor: CustomColors.blue),
-      home: const VotePage(),
+      initialRoute: '/votes',
+      getPages: [
+        GetPage(name: '/votes', page: () => const ListPage()),
+        GetPage(name: '/votes/:id', page: () => VotePage()),
+      ],
     );
   }
 }

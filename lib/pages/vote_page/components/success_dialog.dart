@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/custom_colors.dart';
+import '../../../shared/utils/custom_colors.dart';
 
 class SuccessDialog extends StatefulWidget {
   const SuccessDialog({Key? key}) : super(key: key);
@@ -28,12 +28,21 @@ class _SuccessDialogState extends State<SuccessDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Center(
-          child: Column(
-        children: [
-          Image(image: _imageAsset, width: 200, height: 200),
-          const Text('Mandou bem!'),
-        ],
-      )),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: const Icon(Icons.close),
+                splashRadius: 24,
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            Image(image: _imageAsset, width: 200, height: 200),
+            const Text('Mandou bem!'),
+          ],
+        ),
+      ),
       content: ElevatedButton(
         onPressed: () {},
         style: ButtonStyle(

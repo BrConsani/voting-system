@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:voting_system/components/success_dialog.dart';
-import 'package:voting_system/components/vote_card.dart';
+import 'package:get/route_manager.dart';
 
-class VotePage extends StatelessWidget {
-  const VotePage({Key? key}) : super(key: key);
+import '../../shared/components/app_bar_icon_button.dart';
+import '../../shared/components/login_dialog.dart';
+import '../vote_page/components/vote_card.dart';
+
+class ListPage extends StatelessWidget {
+  const ListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,14 +14,9 @@ class VotePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: [
-          IconButton(
-            icon: Icons.thumb_up_alt,
-            text: 'Votações',
-            onTap: () {},
-          ),
-          const SizedBox(width: 16),
-          IconButton(
+          AppBarIconButton(
             icon: Icons.settings,
             text: 'Gerenciar',
             onTap: () {},
@@ -27,7 +25,7 @@ class VotePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: _onTapLogin,
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
                 foregroundColor: MaterialStateProperty.all(Colors.black),
@@ -46,7 +44,7 @@ class VotePage extends StatelessWidget {
           const SizedBox(height: 48),
           Center(
             child: Text(
-              'Votação para Dev do Mês',
+              'Votações',
               style: textTheme.headline2?.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.w300,
@@ -65,15 +63,14 @@ class VotePage extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       crossAxisCount: getCrossAxisCount(constraints),
                       shrinkWrap: true,
-                      children: List.generate(9, (_) {
-                        return Center(child: VoteCard(
-                          onVote: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => const SuccessDialog(),
-                            );
-                          },
-                        ));
+                      children: List.generate(1, (_) {
+                        return Center(
+                          child: VoteCard(
+                            onVote: () async {
+                              Get.toNamed('/votes/1');
+                            },
+                          ),
+                        );
                       }),
                     );
                   },
@@ -96,34 +93,8 @@ class VotePage extends StatelessWidget {
       return 1;
     }
   }
-}
 
-class IconButton extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final Function() onTap;
-
-  const IconButton({
-    Key? key,
-    required this.icon,
-    required this.text,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 24),
-            Text(text),
-          ],
-        ),
-      ),
-    );
+  Future<void> _onTapLogin() async {
+    Get.dialog(const LoginDialog());
   }
 }

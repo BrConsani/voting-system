@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:voting_system/utils/custom_colors.dart';
 
-class VoteCard extends StatelessWidget {
-  final Function() onVote;
+import '../../../shared/utils/custom_colors.dart';
+
+class VoteCard extends StatefulWidget {
+  final Future<void> Function() onVote;
 
   const VoteCard({Key? key, required this.onVote}) : super(key: key);
+
+  @override
+  State<VoteCard> createState() => _VoteCardState();
+}
+
+class _VoteCardState extends State<VoteCard> {
+  bool isLoadingVote = false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +67,21 @@ class VoteCard extends StatelessWidget {
                 height: 36,
                 width: 250,
                 child: ElevatedButton(
-                  onPressed: onVote,
+                  onPressed: _onTapVote,
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
                       CustomColors.green,
                     ),
                   ),
-                  child: const Text('VOTAR'),
+                  child: isLoadingVote
+                      ? const SizedBox.square(
+                          dimension: 16,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Text('VOTAR'),
                 ),
               ),
             ],
@@ -73,5 +89,16 @@ class VoteCard extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> _onTapVote() async {
+    if (isLoadingVote) return;
+    setState(() => isLoadingVote = true);
+    try {
+      await widget.onVote();
+    } catch (_) {
+    } finally {
+      setState(() => isLoadingVote = false);
+    }
   }
 }
