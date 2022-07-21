@@ -3,9 +3,18 @@ import 'package:flutter/material.dart';
 import '../../../shared/utils/custom_colors.dart';
 
 class VoteCard extends StatefulWidget {
-  final Future<void> Function() onVote;
+  final String description;
+  final String imageUrl;
+  final Future<void> Function()? onVote;
+  final String actionText;
 
-  const VoteCard({Key? key, required this.onVote}) : super(key: key);
+  const VoteCard({
+    super.key,
+    required this.onVote,
+    required this.description,
+    required this.imageUrl,
+    required this.actionText,
+  });
 
   @override
   State<VoteCard> createState() => _VoteCardState();
@@ -49,9 +58,12 @@ class _VoteCardState extends State<VoteCard> {
                   child: Padding(
                     padding: const EdgeInsets.all(10), // Border radius
                     child: ClipOval(
-                      child: Image.asset(
-                        'assets/default-placeholder.png',
-                        width: 240,
+                      child: Image.network(
+                        widget.imageUrl,
+                        errorBuilder: (_, __, ___) => Image.asset(
+                          'assets/default-placeholder.png',
+                          width: 240,
+                        ),
                       ),
                     ),
                   ),
@@ -59,7 +71,7 @@ class _VoteCardState extends State<VoteCard> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Osvaldo Margato',
+                widget.description,
                 style: textTheme.headline6?.copyWith(color: Colors.black),
               ),
               const SizedBox(height: 16),
@@ -67,7 +79,7 @@ class _VoteCardState extends State<VoteCard> {
                 height: 36,
                 width: 250,
                 child: ElevatedButton(
-                  onPressed: _onTapVote,
+                  onPressed: widget.onVote == null ? null : _onTapVote,
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
                       CustomColors.green,
@@ -81,7 +93,7 @@ class _VoteCardState extends State<VoteCard> {
                             strokeWidth: 2,
                           ),
                         )
-                      : const Text('VOTAR'),
+                      : Text(widget.actionText),
                 ),
               ),
             ],
@@ -95,7 +107,7 @@ class _VoteCardState extends State<VoteCard> {
     if (isLoadingVote) return;
     setState(() => isLoadingVote = true);
     try {
-      await widget.onVote();
+      await widget.onVote?.call();
     } catch (_) {
     } finally {
       setState(() => isLoadingVote = false);

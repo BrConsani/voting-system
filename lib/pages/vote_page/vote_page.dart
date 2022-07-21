@@ -29,7 +29,7 @@ class VotePage extends StatelessWidget {
           AppBarIconButton(
             icon: Icons.settings,
             text: 'Gerenciar',
-            onTap: () {},
+            onTap: () => Get.toNamed('/admin'),
           ),
           const SizedBox(width: 16),
           Padding(
@@ -62,30 +62,34 @@ class VotePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 36),
-          Row(
-            children: [
-              const Spacer(flex: 1),
-              Expanded(
-                flex: 5,
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return GridView.count(
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Row(
+                children: [
+                  const Spacer(flex: 1),
+                  Expanded(
+                    flex: getFlexCount(constraints),
+                    child: GridView.count(
                       physics: const NeverScrollableScrollPhysics(),
                       crossAxisCount: getCrossAxisCount(constraints),
                       shrinkWrap: true,
                       children: List.generate(9, (_) {
                         return Center(
                           child: VoteCard(
+                            description: 'Osvaldo Margato',
+                            imageUrl:
+                                'https://media-exp1.licdn.com/dms/image/C4D03AQF2r57YHXg6Dw/profile-displayphoto-shrink_800_800/0/1581707593799?e=1663804800&v=beta&t=nkNyEwhT3lbCTSajtl4P6-qd1TDOP4dOSMH95NuzUpA',
                             onVote: _onTapVote,
+                            actionText: 'VOTAR',
                           ),
                         );
                       }),
-                    );
-                  },
-                ),
-              ),
-              const Spacer(flex: 1),
-            ],
+                    ),
+                  ),
+                  const Spacer(flex: 1),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -93,12 +97,22 @@ class VotePage extends StatelessWidget {
   }
 
   int getCrossAxisCount(BoxConstraints constraints) {
-    if (constraints.maxWidth > 900) {
+    if (constraints.maxWidth > 1100) {
       return 3;
-    } else if (constraints.maxWidth > 600) {
+    } else if (constraints.maxWidth > 850) {
       return 2;
     } else {
       return 1;
+    }
+  }
+
+  int getFlexCount(BoxConstraints constraints) {
+    if (constraints.maxWidth > 1100) {
+      return 10;
+    } else if (constraints.maxWidth > 850) {
+      return 5;
+    } else {
+      return 3;
     }
   }
 

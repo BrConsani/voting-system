@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:voting_system/pages/admin_page/admin_page.dart';
 import 'package:voting_system/pages/list_page/list_page.dart';
 import 'package:voting_system/pages/vote_page/vote_page.dart';
 import 'package:voting_system/shared/utils/custom_colors.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/votes', page: () => const ListPage()),
         GetPage(name: '/votes/:id', page: () => VotePage()),
+        GetPage(name: '/admin', page: () => const AdminPage()),
       ],
     );
   }

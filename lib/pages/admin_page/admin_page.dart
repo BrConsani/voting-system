@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../shared/components/app_bar_icon_button.dart';
-import '../../shared/components/login_dialog.dart';
 import '../vote_page/components/vote_card.dart';
 
-class ListPage extends StatelessWidget {
-  const ListPage({Key? key}) : super(key: key);
+class AdminPage extends StatelessWidget {
+  const AdminPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,24 +16,15 @@ class ListPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: [
           AppBarIconButton(
-            icon: Icons.settings,
-            text: 'Gerenciar',
-            onTap: () => Get.toNamed('/admin'),
+            icon: Icons.add,
+            text: 'Nova Votação',
+            onTap: () {},
           ),
           const SizedBox(width: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: ElevatedButton(
-              onPressed: _onTapLogin,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-                foregroundColor: MaterialStateProperty.all(Colors.black),
-                side: MaterialStateProperty.all(const BorderSide()),
-                overlayColor:
-                    MaterialStateProperty.all(Colors.black.withOpacity(0.1)),
-              ),
-              child: const Text('LOGIN'),
-            ),
+          AppBarIconButton(
+            icon: Icons.thumb_up_alt,
+            text: 'Votações',
+            onTap: () => Get.toNamed('/votes'),
           ),
           const SizedBox(width: 16),
         ],
@@ -68,8 +58,8 @@ class ListPage extends StatelessWidget {
                           description: 'Dev do Mês',
                           imageUrl:
                               'https://store-images.microsoft.com/image/apps.43285.9007199266246620.41cf6c7d-02b1-4f98-acd2-4d40fb8d4a26.472c4392-fadf-4711-9f8b-62df0ed34905',
-                          onVote: () async => Get.toNamed('/votes/1'),
-                          actionText: 'VOTAR',
+                          onVote: () async {},
+                          actionText: 'VISUALIZAR',
                         ),
                       );
                     }),
@@ -102,9 +92,5 @@ class ListPage extends StatelessWidget {
     } else {
       return 3;
     }
-  }
-
-  Future<void> _onTapLogin() async {
-    Get.dialog(const LoginDialog());
   }
 }
