@@ -22,7 +22,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/votes',
       getPages: [
         GetPage(name: '/votes', page: () => ListPage()),
-        GetPage(name: '/votes/:id', page: () => VotePage()),
+        GetPage(
+          name: '/votes/:id',
+          page: () => VotePage(votingId: Get.parameters['id']!),
+        ),
         GetPage(name: '/admin', page: () => const AdminPage()),
       ],
       localizationsDelegates: const [...GlobalMaterialLocalizations.delegates],

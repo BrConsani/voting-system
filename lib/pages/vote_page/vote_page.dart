@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:voting_system/pages/vote_page/vote_controller.dart';
 
 import '../../shared/components/app_bar_icon_button.dart';
@@ -8,9 +8,11 @@ import 'components/success_dialog.dart';
 import 'components/vote_card.dart';
 
 class VotePage extends StatelessWidget {
-  final controller = VoteController();
+  final VoteController controller;
+  final String votingId;
 
-  VotePage({Key? key}) : super(key: key);
+  VotePage({super.key, required this.votingId})
+      : controller = VoteController(votingId);
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +55,15 @@ class VotePage extends StatelessWidget {
         children: [
           const SizedBox(height: 48),
           Center(
-            child: Text(
-              'Votação para Dev do Mês',
-              style: textTheme.headline2?.copyWith(
-                color: Colors.black,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
+            child: Obx(() {
+              return Text(
+                'Votação para ${controller.votingName}',
+                style: textTheme.headline2?.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w300,
+                ),
+              );
+            }),
           ),
           const SizedBox(height: 36),
           LayoutBuilder(
@@ -73,17 +77,16 @@ class VotePage extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       crossAxisCount: getCrossAxisCount(constraints),
                       shrinkWrap: true,
-                      children: List.generate(9, (_) {
+                      children: controller.candidates.map((candidate) {
                         return Center(
                           child: VoteCard(
-                            description: 'Osvaldo Margato',
-                            imageUrl:
-                                'https://media-exp1.licdn.com/dms/image/C4D03AQF2r57YHXg6Dw/profile-displayphoto-shrink_800_800/0/1581707593799?e=1663804800&v=beta&t=nkNyEwhT3lbCTSajtl4P6-qd1TDOP4dOSMH95NuzUpA',
+                            description: candidate.name,
+                            imageUrl: candidate.imageUrl,
                             onVote: _onTapVote,
                             actionText: 'VOTAR',
                           ),
                         );
-                      }),
+                      }).toList(),
                     ),
                   ),
                   const Spacer(flex: 1),

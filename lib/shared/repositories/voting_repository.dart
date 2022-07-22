@@ -36,4 +36,14 @@ class VotingRepository {
         .map<Voting>((voting) => Voting.fromMap(Map.from(voting)))
         .toList();
   }
+
+  Future<Voting> getVotingById(String id) async {
+    final response = await http.get(
+      Uri.http('15.229.68.50:8080', '/votings/v1/votings/$id'),
+    );
+
+    final map = jsonDecode(utf8.decode(response.bodyBytes));
+
+    return Voting.fromMap(Map.from(map['data']));
+  }
 }
