@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/route_manager.dart';
 import 'package:voting_system/pages/admin_page/admin_page.dart';
 import 'package:voting_system/pages/list_page/list_page.dart';
@@ -20,10 +21,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primaryColor: CustomColors.blue),
       initialRoute: '/votes',
       getPages: [
-        GetPage(name: '/votes', page: () => const ListPage()),
+        GetPage(name: '/votes', page: () => ListPage()),
         GetPage(name: '/votes/:id', page: () => VotePage()),
         GetPage(name: '/admin', page: () => const AdminPage()),
       ],
+      localizationsDelegates: const [...GlobalMaterialLocalizations.delegates],
+      supportedLocales: const [Locale('pt', 'BR')],
     );
   }
 }

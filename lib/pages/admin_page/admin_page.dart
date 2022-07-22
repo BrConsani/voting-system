@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:voting_system/pages/admin_page/components/create_vote_dialog.dart';
 
 import '../../shared/components/app_bar_icon_button.dart';
 import '../vote_page/components/vote_card.dart';
@@ -18,7 +19,7 @@ class AdminPage extends StatelessWidget {
           AppBarIconButton(
             icon: Icons.add,
             text: 'Nova Votação',
-            onTap: () {},
+            onTap: () => Get.dialog(const CreateVoteDialog()),
           ),
           const SizedBox(width: 16),
           AppBarIconButton(
