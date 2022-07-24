@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:voting_system/shared/entity/candidate.dart';
 import 'package:voting_system/shared/entity/voting.dart';
 
-const String _endpointAdmin = '54.94.241.52:8080';
-const String _endpointUser = '54.94.241.52:8081';
+const String _endpointAdmin = '54.207.202.16:8080';
+const String _endpointUser = '54.207.202.16:8081';
 
 class VotingRepository {
   Future<void> createVoting(Voting voting) async {

@@ -57,19 +57,18 @@ class _VoteCardState extends State<VoteCard> {
               Material(
                 shape: const CircleBorder(),
                 elevation: 4,
-                child: CircleAvatar(
-                  radius: 90,
-                  backgroundColor: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10), // Border radius
-                    child: ClipOval(
-                      child: Image.network(
-                        widget.imageUrl,
-                        errorBuilder: (_, __, ___) => Image.asset(
-                          'assets/default-placeholder.png',
-                          width: 240,
-                        ),
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: CircleAvatar(
+                    radius: 90,
+                    backgroundColor: Colors.white,
+                    backgroundImage: const AssetImage(
+                      'assets/default-placeholder.png',
+                    ),
+                    child: CircleAvatar(
+                      radius: 90,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: NetworkImage(widget.imageUrl),
                     ),
                   ),
                 ),
