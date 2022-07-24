@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voting_system/pages/vote_page/vote_controller.dart';
+import 'package:voting_system/shared/entity/candidate.dart';
 
 import '../../shared/components/app_bar_icon_button.dart';
 import '../../shared/components/login_dialog.dart';
@@ -83,7 +84,7 @@ class VotePage extends StatelessWidget {
                             child: VoteCard(
                               description: candidate.name,
                               imageUrl: candidate.imageUrl,
-                              onVote: _onTapVote,
+                              onVote: () => _onTapVote(candidate),
                               actionText: 'VOTAR',
                             ),
                           );
@@ -121,8 +122,8 @@ class VotePage extends StatelessWidget {
     }
   }
 
-  Future<void> _onTapVote() async {
-    await controller.computeVote();
+  Future<void> _onTapVote(Candidate candidate) async {
+    await controller.computeVote(candidate);
     Get.dialog(const SuccessDialog());
   }
 

@@ -1,14 +1,16 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:voting_system/shared/entity/candidate.dart';
 import 'package:voting_system/shared/entity/voting.dart';
 
-const String _endpoint = '54.94.241.52:8080';
+const String _endpointAdmin = '54.94.241.52:8080';
+const String _endpointUser = '54.94.241.52:8081';
 
 class VotingRepository {
   Future<void> createVoting(Voting voting) async {
     final response = await http.post(
-      Uri.http(_endpoint, '/votings/v1/votings'),
+      Uri.http(_endpointAdmin, '/votings/v1/votings'),
       body: voting.toJson(),
       headers: {'Content-Type': 'application/json'},
     );
@@ -20,7 +22,7 @@ class VotingRepository {
     final futures = voting.candidates.map((candidate) {
       return http.post(
         Uri.http(
-          _endpoint,
+          _endpointAdmin,
           '/votings/v1/votings/${createdVoting.id}/candidates',
         ),
         body: candidate.toJson(),
@@ -33,7 +35,7 @@ class VotingRepository {
 
   Future<List<Voting>> getVotings() async {
     final response = await http.get(
-      Uri.http(_endpoint, '/votings/v1/votings'),
+      Uri.http(_endpointAdmin, '/votings/v1/votings'),
     );
 
     final map = jsonDecode(utf8.decode(response.bodyBytes));
@@ -45,11 +47,20 @@ class VotingRepository {
 
   Future<Voting> getVotingById(String id) async {
     final response = await http.get(
-      Uri.http(_endpoint, '/votings/v1/votings/$id'),
+      Uri.http(_endpointAdmin, '/votings/v1/votings/$id'),
     );
 
     final map = jsonDecode(utf8.decode(response.bodyBytes));
 
     return Voting.fromMap(Map.from(map['data']));
+  }
+
+  Future<void> computeVote(String votingId, Candidate candidate) async {
+    await http.post(
+      Uri.http(
+        _endpointUser,
+        '/votings/v1/votings/$votingId/candidates/${candidate.id}/votes',
+      ),
+    );
   }
 }
