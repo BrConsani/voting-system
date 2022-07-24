@@ -69,6 +69,8 @@ class AdminPage extends StatelessWidget {
                             Get.dialog(ResultDialog(voting: voting));
                           },
                           actionText: 'VISUALIZAR',
+                          showDeleteButton: true,
+                          onDelete: () async => controller.deleteVoting(voting),
                         ),
                       );
                     }).toList(),
@@ -89,7 +91,7 @@ class AdminPage extends StatelessWidget {
   }
 
   int getCrossAxisCount(BoxConstraints constraints) {
-    if (constraints.maxWidth > 1100) {
+    if (constraints.maxWidth > 1200) {
       return 3;
     } else if (constraints.maxWidth > 850) {
       return 2;

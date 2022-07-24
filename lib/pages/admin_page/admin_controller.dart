@@ -17,6 +17,12 @@ class AdminController extends GetxController {
     getVotings();
   }
 
+  Future<void> deleteVoting(Voting voting) async {
+    if (voting.id == null) return;
+    await repository.deleteVoting(voting.id!);
+    getVotings();
+  }
+
   Future<void> getVotings() async {
     votings.clear();
     votings.addAll(await repository.getVotings());

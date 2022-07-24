@@ -63,4 +63,10 @@ class VotingRepository {
       ),
     );
   }
+
+  Future<void> deleteVoting(String votingId) async {
+    await http.delete(
+      Uri.http(_endpointAdmin, '/votings/v1/votings/$votingId'),
+    );
+  }
 }
