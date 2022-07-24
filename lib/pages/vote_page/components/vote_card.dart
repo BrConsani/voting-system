@@ -81,8 +81,13 @@ class _VoteCardState extends State<VoteCard> {
                 child: ElevatedButton(
                   onPressed: widget.onVote == null ? null : _onTapVote,
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      CustomColors.green,
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                      ((states) {
+                        if (states.contains(MaterialState.disabled)) {
+                          return Colors.grey;
+                        }
+                        return CustomColors.green;
+                      }),
                     ),
                   ),
                   child: isLoadingVote

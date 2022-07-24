@@ -7,6 +7,7 @@ class VoteController extends GetxController {
   final candidates = <Candidate>[].obs;
   final votingName = ''.obs;
   final String votingId;
+  final canVote = false.obs;
 
   VoteController(this.votingId) {
     getVoting(votingId);
@@ -15,6 +16,7 @@ class VoteController extends GetxController {
   Future<void> getVoting(String votingId) async {
     final voting = await repository.getVotingById(votingId);
     votingName.value = voting.name;
+    canVote.value = voting.open;
     candidates.clear();
     candidates.addAll(voting.candidates);
   }

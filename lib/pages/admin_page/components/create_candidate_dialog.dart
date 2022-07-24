@@ -44,6 +44,7 @@ class CreateCandidateDialog extends StatelessWidget {
         result: Candidate(
           name: _nameController.text,
           imageUrl: _imageController.text,
+          votes: 0,
         ),
       );
     }

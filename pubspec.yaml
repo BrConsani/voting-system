@@ -16,6 +16,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   http: ^0.13.4
+  syncfusion_flutter_charts: ^20.2.39
 
 dev_dependencies:
   flutter_test:

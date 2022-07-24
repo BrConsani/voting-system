@@ -4,14 +4,26 @@ class Candidate {
   final String? id;
   final String name;
   final String imageUrl;
+  final int votes;
 
-  Candidate({this.id, required this.name, required this.imageUrl});
+  Candidate({
+    this.id,
+    required this.name,
+    required this.imageUrl,
+    required this.votes,
+  });
 
-  Candidate copyWith({String? id, String? name, String? imageUrl}) {
+  Candidate copyWith({
+    String? id,
+    String? name,
+    String? imageUrl,
+    int? votes,
+  }) {
     return Candidate(
       id: id ?? this.id,
       name: name ?? this.name,
       imageUrl: imageUrl ?? this.imageUrl,
+      votes: votes ?? this.votes,
     );
   }
 
@@ -24,6 +36,7 @@ class Candidate {
       id: map['id'],
       name: map['name'],
       imageUrl: map['image_url'] ?? '',
+      votes: map['votes'] ?? 0,
     );
   }
 
@@ -42,9 +55,12 @@ class Candidate {
     return other is Candidate &&
         other.id == id &&
         other.name == name &&
-        other.imageUrl == imageUrl;
+        other.imageUrl == imageUrl &&
+        other.votes == votes;
   }
 
   @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ imageUrl.hashCode;
+  int get hashCode {
+    return id.hashCode ^ name.hashCode ^ imageUrl.hashCode ^ votes.hashCode;
+  }
 }

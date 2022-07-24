@@ -71,9 +71,9 @@ class ListPage extends StatelessWidget {
                           child: VoteCard(
                             description: voting.name,
                             imageUrl: voting.imageUrl,
-                            onVote: () async {
-                              return Get.toNamed('/votes/${voting.id}');
-                            },
+                            onVote: voting.open
+                                ? () async => Get.toNamed('/votes/${voting.id}')
+                                : null,
                             actionText: 'VOTAR',
                           ),
                         );

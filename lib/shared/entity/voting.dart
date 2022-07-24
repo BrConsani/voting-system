@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:voting_system/shared/entity/candidate.dart';
 
 class Voting {
@@ -9,14 +10,19 @@ class Voting {
   final DateTime startDate;
   final DateTime endDate;
   final List<Candidate> candidates;
+  final bool open;
+  final int totalVotes;
 
-  Voting(
-      {this.id,
-      required this.name,
-      required this.imageUrl,
-      required this.startDate,
-      required this.endDate,
-      required this.candidates});
+  Voting({
+    this.id,
+    required this.name,
+    required this.imageUrl,
+    required this.startDate,
+    required this.endDate,
+    required this.candidates,
+    required this.open,
+    required this.totalVotes,
+  });
 
   Voting copyWith({
     String? id,
@@ -25,6 +31,8 @@ class Voting {
     DateTime? startDate,
     DateTime? endDate,
     List<Candidate>? candidates,
+    bool? open,
+    int? totalVotes,
   }) {
     return Voting(
       id: id ?? this.id,
@@ -33,6 +41,8 @@ class Voting {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       candidates: candidates ?? this.candidates,
+      open: open ?? this.open,
+      totalVotes: totalVotes ?? this.totalVotes,
     );
   }
 
@@ -56,6 +66,8 @@ class Voting {
       candidates: map['candidates']
           .map<Candidate>((candidate) => Candidate.fromMap(Map.from(candidate)))
           .toList(),
+      open: map['open'] ?? false,
+      totalVotes: map['total_votes'] ?? 0,
     );
   }
 
@@ -77,7 +89,10 @@ class Voting {
         other.name == name &&
         other.imageUrl == imageUrl &&
         other.startDate == startDate &&
-        other.endDate == endDate;
+        other.endDate == endDate &&
+        listEquals(other.candidates, candidates) &&
+        other.open == open &&
+        other.totalVotes == totalVotes;
   }
 
   @override
@@ -86,6 +101,9 @@ class Voting {
         name.hashCode ^
         imageUrl.hashCode ^
         startDate.hashCode ^
-        endDate.hashCode;
+        endDate.hashCode ^
+        candidates.hashCode ^
+        open.hashCode ^
+        totalVotes.hashCode;
   }
 }

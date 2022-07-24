@@ -136,6 +136,8 @@ class _CreateVoteDialogState extends State<CreateVoteDialog> {
           startDate: DateTime.parse(_startDateController.text),
           endDate: DateTime.parse(_startDateController.text),
           candidates: candidates,
+          totalVotes: 0,
+          open: false,
         ),
       );
     }

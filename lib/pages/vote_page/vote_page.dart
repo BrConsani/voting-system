@@ -84,7 +84,9 @@ class VotePage extends StatelessWidget {
                             child: VoteCard(
                               description: candidate.name,
                               imageUrl: candidate.imageUrl,
-                              onVote: () => _onTapVote(candidate),
+                              onVote: controller.canVote.value
+                                  ? () => _onTapVote(candidate)
+                                  : null,
                               actionText: 'VOTAR',
                             ),
                           );

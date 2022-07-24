@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voting_system/pages/admin_page/admin_controller.dart';
 import 'package:voting_system/pages/admin_page/components/create_vote_dialog.dart';
+import 'package:voting_system/shared/components/result_dialog.dart';
 import 'package:voting_system/shared/entity/voting.dart';
 
 import '../../shared/components/app_bar_icon_button.dart';
@@ -64,7 +65,7 @@ class AdminPage extends StatelessWidget {
                             description: voting.name,
                             imageUrl: voting.imageUrl,
                             onVote: () async {
-                              return Get.toNamed('/votes/${voting.id}');
+                              Get.dialog(ResultDialog(voting: voting));
                             },
                             actionText: 'VISUALIZAR',
                           ),
