@@ -13,7 +13,7 @@ class CreateCandidateDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('CRIAR CANDIDATO'),
+      title: const Text('Criar Candidato'),
       content: Form(
         key: _formKey,
         child: Column(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voting_system/pages/admin_page/admin_controller.dart';
+import 'package:voting_system/pages/admin_page/components/admin_dialog.dart';
 import 'package:voting_system/pages/admin_page/components/create_vote_dialog.dart';
 import 'package:voting_system/shared/components/result_dialog.dart';
 import 'package:voting_system/shared/entity/voting.dart';
@@ -8,10 +9,25 @@ import 'package:voting_system/shared/entity/voting.dart';
 import '../../shared/components/app_bar_icon_button.dart';
 import '../vote_page/components/vote_card.dart';
 
-class AdminPage extends StatelessWidget {
+class AdminPage extends StatefulWidget {
+  const AdminPage({Key? key}) : super(key: key);
+
+  @override
+  State<AdminPage> createState() => _AdminPageState();
+}
+
+class _AdminPageState extends State<AdminPage> {
   final controller = Get.put(AdminController());
 
-  AdminPage({Key? key}) : super(key: key);
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => showAdminDialog());
+    super.initState();
+  }
+
+  Future<void> showAdminDialog() async {
+    await Get.dialog(AdminDialog(), barrierDismissible: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,33 +66,30 @@ class AdminPage extends StatelessWidget {
           const SizedBox(height: 36),
           LayoutBuilder(
             builder: (context, constraints) {
-              return Expanded(
-                flex: getFlexCount(constraints),
-                child: Obx(() {
-                  return GridView.count(
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: getCrossAxisCount(constraints),
-                    shrinkWrap: true,
-                    children: controller.votings.map((voting) {
-                      return Center(
-                        child: VoteCard(
-                          description: voting.name,
-                          subtitle: voting.winner != null
-                              ? 'Vencedor: ${voting.winner!.name}'
-                              : null,
-                          imageUrl: voting.imageUrl,
-                          onVote: () async {
-                            Get.dialog(ResultDialog(voting: voting));
-                          },
-                          actionText: 'VISUALIZAR',
-                          showDeleteButton: true,
-                          onDelete: () async => controller.deleteVoting(voting),
-                        ),
-                      );
-                    }).toList(),
-                  );
-                }),
-              );
+              return Obx(() {
+                return GridView.count(
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: getCrossAxisCount(constraints),
+                  shrinkWrap: true,
+                  children: controller.votings.map((voting) {
+                    return Center(
+                      child: VoteCard(
+                        description: voting.name,
+                        subtitle: voting.winner != null
+                            ? 'Vencedor: ${voting.winner!.name}'
+                            : null,
+                        imageUrl: voting.imageUrl,
+                        onVote: () async {
+                          Get.dialog(ResultDialog(voting: voting));
+                        },
+                        actionText: 'VISUALIZAR',
+                        showDeleteButton: true,
+                        onDelete: () async => controller.deleteVoting(voting),
+                      ),
+                    );
+                  }).toList(),
+                );
+              });
             },
           ),
         ],
