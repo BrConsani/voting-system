@@ -41,8 +41,8 @@ class Voting {
       'id': id,
       'name': name,
       'image_url': imageUrl,
-      'start_time': startDate.millisecondsSinceEpoch,
-      'end_time': endDate.millisecondsSinceEpoch,
+      'start_time': startDate.toIso8601String(),
+      'end_time': endDate.toIso8601String(),
     };
   }
 

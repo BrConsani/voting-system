@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Candidate {
   final String? id;
   final String name;
@@ -14,16 +16,21 @@ class Candidate {
   }
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'name': name, 'imageUrl': imageUrl};
+    return {'id': id, 'name': name, 'image_url': imageUrl};
   }
 
   factory Candidate.fromMap(Map<String, dynamic> map) {
     return Candidate(
       id: map['id'],
       name: map['name'],
-      imageUrl: map['image_url'],
+      imageUrl: map['image_url'] ?? '',
     );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory Candidate.fromJson(String source) =>
+      Candidate.fromMap(json.decode(source));
 
   @override
   String toString() => 'Candidate(id: $id, name: $name, imageUrl: $imageUrl)';

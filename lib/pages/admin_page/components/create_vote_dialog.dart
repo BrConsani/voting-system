@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:voting_system/pages/admin_page/components/create_candidate_dialog.dart';
 import 'package:voting_system/shared/entity/candidate.dart';
+import 'package:voting_system/shared/entity/voting.dart';
 
 class CreateVoteDialog extends StatefulWidget {
   const CreateVoteDialog({Key? key}) : super(key: key);
@@ -14,6 +15,8 @@ class _CreateVoteDialogState extends State<CreateVoteDialog> {
   final _formKey = GlobalKey<FormState>();
   final candidates = <Candidate>[];
 
+  final _nameController = TextEditingController();
+  final _imageController = TextEditingController();
   final _startDateController = TextEditingController();
   final _endDateController = TextEditingController();
 
@@ -28,7 +31,12 @@ class _CreateVoteDialogState extends State<CreateVoteDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
+              controller: _nameController,
               decoration: const InputDecoration(label: Text('Nome')),
+            ),
+            TextFormField(
+              controller: _imageController,
+              decoration: const InputDecoration(label: Text('Imagem')),
             ),
             TextFormField(
               controller: _startDateController,
@@ -121,7 +129,15 @@ class _CreateVoteDialogState extends State<CreateVoteDialog> {
 
   void _onTapCreate() {
     if (_formKey.currentState!.validate()) {
-      Get.back();
+      Get.back(
+        result: Voting(
+          name: _nameController.text,
+          imageUrl: _imageController.text,
+          startDate: DateTime.parse(_startDateController.text),
+          endDate: DateTime.parse(_startDateController.text),
+          candidates: candidates,
+        ),
+      );
     }
   }
 }

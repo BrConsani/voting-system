@@ -73,21 +73,23 @@ class VotePage extends StatelessWidget {
                   const Spacer(flex: 1),
                   Expanded(
                     flex: getFlexCount(constraints),
-                    child: GridView.count(
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: getCrossAxisCount(constraints),
-                      shrinkWrap: true,
-                      children: controller.candidates.map((candidate) {
-                        return Center(
-                          child: VoteCard(
-                            description: candidate.name,
-                            imageUrl: candidate.imageUrl,
-                            onVote: _onTapVote,
-                            actionText: 'VOTAR',
-                          ),
-                        );
-                      }).toList(),
-                    ),
+                    child: Obx(() {
+                      return GridView.count(
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: getCrossAxisCount(constraints),
+                        shrinkWrap: true,
+                        children: controller.candidates.map((candidate) {
+                          return Center(
+                            child: VoteCard(
+                              description: candidate.name,
+                              imageUrl: candidate.imageUrl,
+                              onVote: _onTapVote,
+                              actionText: 'VOTAR',
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    }),
                   ),
                   const Spacer(flex: 1),
                 ],

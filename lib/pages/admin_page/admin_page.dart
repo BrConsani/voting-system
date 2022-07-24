@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:voting_system/pages/admin_page/admin_controller.dart';
 import 'package:voting_system/pages/admin_page/components/create_vote_dialog.dart';
+import 'package:voting_system/shared/entity/voting.dart';
 
 import '../../shared/components/app_bar_icon_button.dart';
 import '../vote_page/components/vote_card.dart';
 
 class AdminPage extends StatelessWidget {
-  const AdminPage({Key? key}) : super(key: key);
+  final controller = Get.put(AdminController());
+
+  AdminPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,7 @@ class AdminPage extends StatelessWidget {
           AppBarIconButton(
             icon: Icons.add,
             text: 'Nova Votação',
-            onTap: () => Get.dialog(const CreateVoteDialog()),
+            onTap: _onTapOnCreate,
           ),
           const SizedBox(width: 16),
           AppBarIconButton(
@@ -49,22 +53,25 @@ class AdminPage extends StatelessWidget {
                 const Spacer(flex: 1),
                 Expanded(
                   flex: getFlexCount(constraints),
-                  child: GridView.count(
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: getCrossAxisCount(constraints),
-                    shrinkWrap: true,
-                    children: List.generate(1, (_) {
-                      return Center(
-                        child: VoteCard(
-                          description: 'Dev do Mês',
-                          imageUrl:
-                              'https://store-images.microsoft.com/image/apps.43285.9007199266246620.41cf6c7d-02b1-4f98-acd2-4d40fb8d4a26.472c4392-fadf-4711-9f8b-62df0ed34905',
-                          onVote: () async {},
-                          actionText: 'VISUALIZAR',
-                        ),
-                      );
-                    }),
-                  ),
+                  child: Obx(() {
+                    return GridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: getCrossAxisCount(constraints),
+                      shrinkWrap: true,
+                      children: controller.votings.map((voting) {
+                        return Center(
+                          child: VoteCard(
+                            description: voting.name,
+                            imageUrl: voting.imageUrl,
+                            onVote: () async {
+                              return Get.toNamed('/votes/${voting.id}');
+                            },
+                            actionText: 'VISUALIZAR',
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }),
                 ),
                 const Spacer(flex: 1),
               ],
@@ -73,6 +80,12 @@ class AdminPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _onTapOnCreate() async {
+    final voting = await Get.dialog<Voting>(const CreateVoteDialog());
+
+    if (voting != null) controller.createVoting(voting);
   }
 
   int getCrossAxisCount(BoxConstraints constraints) {

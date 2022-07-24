@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           name: '/votes/:id',
           page: () => VotePage(votingId: Get.parameters['id']!),
         ),
-        GetPage(name: '/admin', page: () => const AdminPage()),
+        GetPage(name: '/admin', page: () => AdminPage()),
       ],
       localizationsDelegates: const [...GlobalMaterialLocalizations.delegates],
       supportedLocales: const [Locale('pt', 'BR')],
