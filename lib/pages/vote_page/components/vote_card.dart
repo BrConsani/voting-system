@@ -4,6 +4,7 @@ import '../../../shared/utils/custom_colors.dart';
 
 class VoteCard extends StatefulWidget {
   final String description;
+  final String? subtitle;
   final String imageUrl;
   final Future<void> Function()? onVote;
   final String actionText;
@@ -12,6 +13,7 @@ class VoteCard extends StatefulWidget {
     super.key,
     required this.onVote,
     required this.description,
+    this.subtitle,
     required this.imageUrl,
     required this.actionText,
   });
@@ -29,11 +31,9 @@ class _VoteCardState extends State<VoteCard> {
 
     return Stack(
       children: [
-        const Positioned(
+        const Positioned.fill(
           top: 90,
           child: SizedBox(
-            width: 300,
-            height: 210,
             child: Card(
               elevation: 4,
               shape: RoundedRectangleBorder(
@@ -75,9 +75,13 @@ class _VoteCardState extends State<VoteCard> {
                 style: textTheme.headline6?.copyWith(color: Colors.black),
               ),
               const SizedBox(height: 16),
-              SizedBox(
-                height: 36,
-                width: 250,
+              if (widget.subtitle != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Text(widget.subtitle!),
+                ),
+              Container(
+                constraints: const BoxConstraints(minWidth: 250, minHeight: 36),
                 child: ElevatedButton(
                   onPressed: widget.onVote == null ? null : _onTapVote,
                   style: ButtonStyle(

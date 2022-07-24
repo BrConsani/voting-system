@@ -9,6 +9,7 @@ class Voting {
   final String imageUrl;
   final DateTime startDate;
   final DateTime endDate;
+  final Candidate? winner;
   final List<Candidate> candidates;
   final bool open;
   final int totalVotes;
@@ -19,6 +20,7 @@ class Voting {
     required this.imageUrl,
     required this.startDate,
     required this.endDate,
+    this.winner,
     required this.candidates,
     required this.open,
     required this.totalVotes,
@@ -30,6 +32,7 @@ class Voting {
     String? imageUrl,
     DateTime? startDate,
     DateTime? endDate,
+    Candidate? winner,
     List<Candidate>? candidates,
     bool? open,
     int? totalVotes,
@@ -40,6 +43,7 @@ class Voting {
       imageUrl: imageUrl ?? this.imageUrl,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
+      winner: winner ?? this.winner,
       candidates: candidates ?? this.candidates,
       open: open ?? this.open,
       totalVotes: totalVotes ?? this.totalVotes,
@@ -63,6 +67,9 @@ class Voting {
       imageUrl: map['image_url'] ?? '',
       startDate: DateTime.parse(map['start_time']),
       endDate: DateTime.parse(map['end_time']),
+      winner: map['winner'] != null
+          ? Candidate.fromMap(Map.from(map['winner']))
+          : null,
       candidates: map['candidates']
           .map<Candidate>((candidate) => Candidate.fromMap(Map.from(candidate)))
           .toList(),
@@ -90,6 +97,7 @@ class Voting {
         other.imageUrl == imageUrl &&
         other.startDate == startDate &&
         other.endDate == endDate &&
+        other.winner == winner &&
         listEquals(other.candidates, candidates) &&
         other.open == open &&
         other.totalVotes == totalVotes;
@@ -102,6 +110,7 @@ class Voting {
         imageUrl.hashCode ^
         startDate.hashCode ^
         endDate.hashCode ^
+        winner.hashCode ^
         candidates.hashCode ^
         open.hashCode ^
         totalVotes.hashCode;

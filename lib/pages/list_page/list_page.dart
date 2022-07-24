@@ -55,36 +55,32 @@ class ListPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 36),
-          LayoutBuilder(builder: (context, constraints) {
-            return Row(
-              children: [
-                const Spacer(flex: 1),
-                Expanded(
-                  flex: getFlexCount(constraints),
-                  child: Obx(() {
-                    return GridView.count(
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: getCrossAxisCount(constraints),
-                      shrinkWrap: true,
-                      children: controller.votings.map((voting) {
-                        return Center(
-                          child: VoteCard(
-                            description: voting.name,
-                            imageUrl: voting.imageUrl,
-                            onVote: voting.open
-                                ? () async => Get.toNamed('/votes/${voting.id}')
-                                : null,
-                            actionText: 'VOTAR',
-                          ),
-                        );
-                      }).toList(),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Obx(() {
+                return GridView.count(
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: getCrossAxisCount(constraints),
+                  shrinkWrap: true,
+                  children: controller.votings.map((voting) {
+                    return Center(
+                      child: VoteCard(
+                        description: voting.name,
+                        imageUrl: voting.imageUrl,
+                        subtitle: voting.winner != null
+                            ? 'Vencedor: ${voting.winner!.name}'
+                            : null,
+                        onVote: voting.open
+                            ? () async => Get.toNamed('/votes/${voting.id}')
+                            : null,
+                        actionText: 'VOTAR',
+                      ),
                     );
-                  }),
-                ),
-                const Spacer(flex: 1),
-              ],
-            );
-          }),
+                  }).toList(),
+                );
+              });
+            },
+          ),
         ],
       ),
     );

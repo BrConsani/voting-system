@@ -48,36 +48,35 @@ class AdminPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 36),
-          LayoutBuilder(builder: (context, constraints) {
-            return Row(
-              children: [
-                const Spacer(flex: 1),
-                Expanded(
-                  flex: getFlexCount(constraints),
-                  child: Obx(() {
-                    return GridView.count(
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: getCrossAxisCount(constraints),
-                      shrinkWrap: true,
-                      children: controller.votings.map((voting) {
-                        return Center(
-                          child: VoteCard(
-                            description: voting.name,
-                            imageUrl: voting.imageUrl,
-                            onVote: () async {
-                              Get.dialog(ResultDialog(voting: voting));
-                            },
-                            actionText: 'VISUALIZAR',
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  }),
-                ),
-                const Spacer(flex: 1),
-              ],
-            );
-          }),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Expanded(
+                flex: getFlexCount(constraints),
+                child: Obx(() {
+                  return GridView.count(
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: getCrossAxisCount(constraints),
+                    shrinkWrap: true,
+                    children: controller.votings.map((voting) {
+                      return Center(
+                        child: VoteCard(
+                          description: voting.name,
+                          subtitle: voting.winner != null
+                              ? 'Vencedor: ${voting.winner!.name}'
+                              : null,
+                          imageUrl: voting.imageUrl,
+                          onVote: () async {
+                            Get.dialog(ResultDialog(voting: voting));
+                          },
+                          actionText: 'VISUALIZAR',
+                        ),
+                      );
+                    }).toList(),
+                  );
+                }),
+              );
+            },
+          ),
         ],
       ),
     );

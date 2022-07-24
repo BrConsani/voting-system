@@ -69,33 +69,27 @@ class VotePage extends StatelessWidget {
           const SizedBox(height: 36),
           LayoutBuilder(
             builder: (context, constraints) {
-              return Row(
-                children: [
-                  const Spacer(flex: 1),
-                  Expanded(
-                    flex: getFlexCount(constraints),
-                    child: Obx(() {
-                      return GridView.count(
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: getCrossAxisCount(constraints),
-                        shrinkWrap: true,
-                        children: controller.candidates.map((candidate) {
-                          return Center(
-                            child: VoteCard(
-                              description: candidate.name,
-                              imageUrl: candidate.imageUrl,
-                              onVote: controller.canVote.value
-                                  ? () => _onTapVote(candidate)
-                                  : null,
-                              actionText: 'VOTAR',
-                            ),
-                          );
-                        }).toList(),
+              return Expanded(
+                flex: getFlexCount(constraints),
+                child: Obx(() {
+                  return GridView.count(
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: getCrossAxisCount(constraints),
+                    shrinkWrap: true,
+                    children: controller.candidates.map((candidate) {
+                      return Center(
+                        child: VoteCard(
+                          description: candidate.name,
+                          imageUrl: candidate.imageUrl,
+                          onVote: controller.canVote.value
+                              ? () => _onTapVote(candidate)
+                              : null,
+                          actionText: 'VOTAR',
+                        ),
                       );
-                    }),
-                  ),
-                  const Spacer(flex: 1),
-                ],
+                    }).toList(),
+                  );
+                }),
               );
             },
           ),
